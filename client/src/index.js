@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import './index.css';
+import './index.scss';
 import QuestionaireRoute from './Routes/QuestionaireRoute/QuestionaireRoute.tsx';
 import CreateRoute from './Routes/CreateRoute/CreateRoute.tsx';
 import HomeRoute from './Routes/HomeRoute/HomeRoute.tsx';

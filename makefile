@@ -17,5 +17,14 @@ install-backend:
 	cd $(BACKEND_DIR) && npm install cors
 	cd $(BACKEND_DIR) && npm install mysql2
 
+push:
+	@echo "Adding all in github"
+	@git add .
+
+	@echo "Commiting all"
+	@git commit -m %1
+
+	@echo "Pushing all"
+	@git push origin master
 
 .PHONY: all install-frontend install-backend test
