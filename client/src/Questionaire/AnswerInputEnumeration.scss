@@ -1,0 +1,27 @@
+@import '../SCSS/Theme';
+
+.questionaire .answer-input-enum-container
+{
+	width: 100%;
+	height: auto;
+
+	.answer-input-enum
+	{
+		@include flex-center;
+		margin: 10px 0;
+		width: 100%;
+		height: 60px;
+		border: none;
+		outline: none;
+		border-radius: 20px;
+
+		font-size: 1.1rem;
+		font-weight: bold;
+
+		box-sizing: border-box;
+		padding: 0 10px;
+		color: $normal-text;
+		background-color: $card-background;
+		box-shadow: inset $border-color;
+	}
+}

@@ -1,0 +1,86 @@
+@import '../SCSS/Theme';
+
+.question-list-container
+{
+	background: linear-gradient(to top, #2C2D33, $question-bg);
+
+	.questions-text
+	{
+		@include question-text;
+	}
+
+	.container
+	{
+		@include container-design;
+
+		.question-container
+		{
+			position: relative;
+			padding: 5px 10px;
+			margin: 5px;
+
+			height: 20px;
+			text-align: center;
+			font-weight: bold;
+			border-radius: 10px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			color: $normal-text;
+			border: 1px solid transparent;
+			cursor: pointer;
+
+			& > input
+			{
+				@include flex-center;
+				background-color: inherit;
+				border: none;
+				outline: none;
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				color: inherit;
+				font-weight: bold;
+			}
+
+			&:nth-child(odd)
+			{
+				background-color: $list-odd;
+
+			}
+			&:nth-child(even)
+			{
+				background-color: $list-even;
+			}
+			&:hover
+			{
+				border: 1px solid #cccccc88;
+			}
+			&.active
+			{
+				border: 1px solid #cccccc88;
+				background-color: $main-background;
+			}
+		}
+	}
+
+	.button-container
+	{
+		display: flex;
+		justify-content: space-between;
+		position: relative;
+		margin-top: 10px;
+		left: 5%;
+		width: 90%;
+		height: 40px;
+
+		.question-update
+		{
+			@include update-button;
+			left: 0;
+			margin-top: 0;
+			width: 48%;
+		}
+	}
+	
+}

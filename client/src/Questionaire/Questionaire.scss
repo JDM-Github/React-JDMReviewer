@@ -1,0 +1,69 @@
+@import '../SCSS/Theme';
+
+.questionaire
+{
+	position         : relative;
+	margin-top       : 20px;
+	margin-bottom    : 120px;
+
+	left             : 50%;
+	width            : 90%;
+	height           : auto;
+	min-height       : 300px;
+	max-width        : 700px;
+
+	border-radius    : 20px;
+	background       : linear-gradient(to top, #2C2D33, $question-bg);
+	box-shadow       : $border-color;
+	transform        : translateX(-50%);
+
+	.title
+	{
+		position    : relative;
+		text-align  : center;
+		margin-top  : 10px;
+		font-size   : 2rem;
+		font-weight : bold;
+		color       : $white-text;
+
+		@media (max-width: $breakpoint-small)
+		{		
+			font-size: 1.5rem;
+		}
+	}
+
+	.msg-box
+	{
+		@include flex-center;
+		position: relative;
+		margin-top: 10px;
+		margin-left: 4%;
+	
+		padding: 20px;
+		box-sizing: border-box;
+		width: 92%;
+		height: auto;
+		min-height: 200px;
+	
+		border-radius: 20px;		
+		font-weight: bold;	
+		color: $normal-text;
+		user-select: none;
+		background-color: $card-background;
+		box-shadow: inset $border-color;
+	}
+
+	.answer-container
+	{
+		position: relative;
+		margin-top: 10px;
+		margin-left: 2%;
+		width: 96%;
+		padding: 10px;
+		box-sizing: border-box;
+		height: auto;
+		min-height: 100px;
+	}
+
+}
+

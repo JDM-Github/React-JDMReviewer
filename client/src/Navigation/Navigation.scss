@@ -1,0 +1,38 @@
+@import '../SCSS/Theme';
+
+.navigation
+{
+	display: flex;
+	align-items: center;
+	position: relative;
+	margin-bottom: 50px;
+	width: 100vw;
+	height: 50px;
+	border: $border-color;
+	background-color: $question-bg;
+
+	.nav-items
+	{
+		position: relative;
+		margin-left: 20px;
+
+		font-weight: bold;
+		color: $white-text;
+		cursor: pointer;
+		text-decoration: none;
+
+		&:hover
+		{
+			color: $normal-text
+		}
+	}
+
+	@media (max-width: $breakpoint-small)
+	{
+		justify-content: space-evenly;
+		.nav-items
+		{
+			font-size: 0.8rem;
+		}
+	}
+}

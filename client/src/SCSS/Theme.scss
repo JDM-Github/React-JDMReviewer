@@ -1,0 +1,141 @@
+$breakpoint-small: 480px;
+$breakpoint-medium: 768px;
+$breakpoint-large: 1024px;
+
+$white-text      : #E4E7ED;
+$normal-text     : #B2B5BA;
+$hover-normal-txt: #C2C5CA;
+
+$main-background: #1E1E1E;
+
+$question-bg    : #2C2D31;
+$question-h-bg  : #3C3D41;
+$card-background: #242426;
+$card-hbckground: #1E1E1E;
+
+$list-even      : #2C2D31;
+$list-odd       : #3C3D41;
+$list-even-hover: #2C2D31;
+$list-odd-hover : #2C2D31;
+
+$question-item  : #3C3D41;
+$question-item-h: #4d4e54;
+
+$button-card-c  : #5d5f63;
+$button-card-c-h: #4a4b4f;
+
+$border-color   : 0 5px 10px rgb(0, 0, 0, 0.1);
+
+* {
+	user-select: none;
+}
+.inactive
+{
+	opacity: 0.5;
+	pointer-events: none;
+}
+
+@mixin flex-center
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+@mixin question-text
+{
+	position: absolute;
+	top: 10px;
+	left: 5%;
+	width: 90%;
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.5rem;
+	user-select: none;
+
+	padding: 10px 0;
+	border-radius: 10px;
+	color: $normal-text;
+	background-color: $card-background;
+}
+
+@mixin container-design
+{
+	position: relative;
+	margin-top: 70px;
+	user-select: none;
+	left: 5%;
+	width: 90%;
+	height: calc(100% - 140px);
+	background-color: $main-background;
+	border-radius: 10px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+@mixin update-button
+{
+	@include flex-center;
+	color: $white-text;
+	font-weight: bold;
+	box-shadow: $border-color;
+
+	margin-top: 10px;
+	position: relative;
+	left: 25%;
+	width: 50%;
+	height: 40px;
+	text-align: center;
+	border-radius: 20px;
+	background-color: $button-card-c;
+	cursor: pointer;
+	transition: 0.2s transform;
+
+	&:hover
+	{
+		transform: scale(1.1);
+		background-color: $button-card-c-h;
+	}
+}
+
+@mixin select-design ($height, $color)
+{
+	position: relative;
+	color: $normal-text;
+	font-size: 1rem;
+	font-weight: bold;
+	box-shadow: inset $border-color;
+
+	left: 5%;
+	width: 90%;
+	height: $height;
+
+	resize: none;
+	border: none;
+	outline: none;
+
+	border-radius: 10px;
+	background-color: $color;
+
+	padding: 5px;
+	box-sizing: border-box;
+}
+
+@mixin input-design
+{
+	color: $normal-text;
+	font-size: 1rem;
+	font-weight: bold;
+
+	width: 100%;
+	border: none;
+	outline: none;
+	text-align: center;
+	padding: 10px;
+	border-radius: 10px;
+	box-sizing: border-box;
+	border: 2px solid #cccccc88;
+	box-shadow: $border-color;
+	background-color: $card-background;
+}

@@ -1,0 +1,42 @@
+@import '../SCSS/Theme';
+
+
+.questionaire .answer-button-container
+{
+	width: 100%;
+	height: auto;
+
+	.answer-button
+	{
+		@include flex-center;
+		position: relative;
+		margin: 10px 0;
+		padding: 10px;
+		box-sizing: border-box;
+		font-weight: bold;
+		color: $normal-text;
+		width: 100%;
+		height: auto;
+		min-height: 60px;
+		border-radius    : 20px;
+		background-color : $card-background;
+		box-shadow       : inset $border-color;
+		cursor: pointer;
+		transition: 0.2s transform;
+		user-select: none;
+
+		&:hover, &.active
+		{
+			border: 1px solid #555;
+			transform: scale(1.02);
+			color: $hover-normal-txt;
+			background-color : $card-hbckground;
+		}
+
+		@media (max-width: $breakpoint-small)
+		{
+			font-size: 0.8rem;
+		}
+	}
+	
+}

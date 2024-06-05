@@ -1,0 +1,32 @@
+
+.create-question
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+}
+
+.create-question > *
+{
+	position: relative;
+	margin-left: 20px;
+	height: 500px;
+	border-radius: 20px;
+	box-shadow: 0 5px 10px #00000033;
+}
+
+.create-question .left-container
+{
+	width: 20%;
+}
+
+.create-question .middle-container
+{
+	width: 35%;
+}
+
+.create-question .right-container
+{
+	width: 35%;
+}
