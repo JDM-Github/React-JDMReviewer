@@ -17,14 +17,16 @@ install-backend:
 	cd $(BACKEND_DIR) && npm install cors
 	cd $(BACKEND_DIR) && npm install mysql2
 
+# Push changes to the remote repository
+# Usage: make push message="Your commit message"
 push:
-	@echo "Adding all in github"
+	@echo "Adding all changes to the local repository"
 	@git add .
 
-	@echo "Commiting all"
-	@git commit -m %1
+	@echo "Committing all changes with message: $(message)"
+	@git commit -m "$(message)"
 
-	@echo "Pushing all"
+	@echo "Pushing all changes to the remote repository"
 	@git push origin master
 
 .PHONY: all install-frontend install-backend test
