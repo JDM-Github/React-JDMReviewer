@@ -11,7 +11,7 @@ export default function CreateQuestion()
 	const [selectedQuestion, setSelectedQuestion] = useState(null);
 	return (
 		<div className="create-question">
-			<QuestionListContainer setSelectedSubject={setSelectedSubject} setSelectedQuestion={setSelectedQuestion} className="left-container" />
+			<QuestionListContainer selectedSubject={selectedSubject} setSelectedSubject={setSelectedSubject} setSelectedQuestion={setSelectedQuestion} className="left-container" />
 			<QuestionList selectedSubject={selectedSubject} setSelectedQuestion={setSelectedQuestion} selectedQuestion={selectedQuestion} className="middle-container" />
 			<QuestionHolder selectedQuestion={selectedQuestion} className="right-container" />
 		</div>

@@ -15,8 +15,8 @@ This is a Questionnaire Website created with React for the frontend and Node.js 
 ## Special Keywords
 
 In question messages, you can use special keywords to embed dynamic content:
-- Images: `This picture is ${image={src='link', radius='20px', size=[90%, auto]}}`
-- Text formatting: `This text is ${font={bold=true, size=2rem, color=}}`
+- Images: `This picture is ${image={src='link', autodown=true, radius=20px, size=[90%, auto]}}`
+- Text formatting: `This text is ${font={bold=true, size=2rem, color=red}}TEXT${/font}`
 - Links: `This text is ${link='link'}`
 
 ## Theme Editor

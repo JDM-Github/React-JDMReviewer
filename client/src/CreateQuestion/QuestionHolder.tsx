@@ -1,48 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import RequestHandler from '../Functions/RequestHandler.js';
+import CreateIdentification from './QuestionType/CreateIdentification.tsx';
+import CreateMultipleChoice from './QuestionType/CreateMultipleChoice.tsx';
+import CreateEnumeration    from './QuestionType/CreateEnumeration.tsx';
+import CreateMessage        from './QuestionType/CreateMessage.tsx';
 import './QuestionHolder.scss';
-
-function CreateIdentification({ selectedQuestion })
-{
-	return <input className="identification" />;
-}
-
-function CreateMultipleChoice({ selectedQuestion })
-{
-	return (
-		<div className="create-multiplechoice">
-			<div className="mulitplechoice">
-				<input className="identification" placeholder={selectedQuestion}/>
-				<div className="delete">DELETE</div>
-			</div>
-		</div>
-	)
-}
-
-function CreateEnumeration({ selectedQuestion })
-{
-	return (
-		<div className="create-identification">
-			<input  />
-		</div>
-	)
-}
-
-function CreateMessage({ initialText })
-{
-	const [text, setText] = useState(initialText);
-
-	const handleChange = (event) => setText(event.target.value);
-	useEffect(() => setText(initialText), [initialText]);
-
-	return (<textarea className="questions-question" spellcheck="false" value={text} onChange={handleChange}/>);
-}
 
 export default function QuestionHolder( {className, selectedQuestion} )
 {
-	const [ typeQuestion, setType ] = useState('NONE');
+	const [isEdited, setIsEdited] = useState(false);
+	const [isMessageUpdated, setIsMessageUpdated] = useState(false);
+	const [isTypeQuestionUpdated, setIsTypeQuestionUpdated] = useState(false);
+
+	const [typeQuestion, setType]       = useState('NONE');
+	const [isUpdating, setIsUpdating]   = useState(false);
 	const [backendData, setBackendData] = useState({});
 
+	const updateQuestion = () => setIsUpdating(true);
 	useEffect(() => {
 		if (selectedQuestion !== null)
 		{
@@ -50,6 +24,12 @@ export default function QuestionHolder( {className, selectedQuestion} )
 			.then((result) => {
 				setType(result[0].question_type);
 				setBackendData(result[0]);
+				setIsMessageUpdated(false);
+				setIsTypeQuestionUpdated(false);
+			})
+			.catch((error) => {
+				setType('NONE');
+				setBackendData({"message": ""});
 			});
 		}
 		else
@@ -59,21 +39,38 @@ export default function QuestionHolder( {className, selectedQuestion} )
 		}
 	}, [selectedQuestion, setType]);
 
-	const handleChange = (event) => setType(event.target.value);
+	useEffect(() => {
+		if (isUpdating)
+		{
+			setIsUpdating(false);
+			setIsEdited(false);
+			RequestHandler.handleRequest('post', `/api/update-question-type`,
+				{question_id: selectedQuestion, type: typeQuestion});
+		}
+	});
+
+	const handleChange = (event) => {
+		setIsEdited(false);
+		if (event.target.value !== backendData.question_type)
+			setIsEdited(true);
+
+		setType(event.target.value);
+	}
+
 	const renderElement = () => {
 		if (typeQuestion === 'IDENTIFICATION')
-			return <CreateIdentification selectedQuestion={selectedQuestion} />;
+			return <CreateIdentification setIsTypeQuestionUpdated={setIsTypeQuestionUpdated} isUpdating={isUpdating} setIsUpdating={setIsUpdating} id={backendData.identification_id} />;
 		else if (typeQuestion === 'MULTIPLE CHOICE')
-			return <CreateMultipleChoice selectedQuestion={selectedQuestion} />
+			return <CreateMultipleChoice setIsTypeQuestionUpdated={setIsTypeQuestionUpdated} isUpdating={isUpdating} setIsUpdating={setIsUpdating} id={backendData.multiple_choice_id} />
 		else if (typeQuestion === 'ENUMERATION')
-			return <CreateEnumeration selectedQuestion={selectedQuestion} />
+			return <CreateEnumeration setIsTypeQuestionUpdated={setIsTypeQuestionUpdated} isUpdating={isUpdating} setIsUpdating={setIsUpdating} id={backendData.enumeration_id} />
 		return null;
 	};
 
 	return (
 		<div className={`question-holder ${className}`}>
 			<div className="questions-text">MODIFY QUESTION</div>
-			<CreateMessage initialText={backendData.message} />
+			<CreateMessage isUpdating={isUpdating} setIsMessageUpdated={setIsMessageUpdated} setIsUpdating={setIsUpdating} initialText={backendData.message} id={selectedQuestion}/>
 			<select className="question-select" onChange={handleChange} value={typeQuestion}>
 				{(selectedQuestion !== null) ?
 				(
@@ -83,13 +80,12 @@ export default function QuestionHolder( {className, selectedQuestion} )
 						<option>ENUMERATION</option>
 					</>
 				) : <option>NONE</option>}
-				
+
 			</select>
 			<div className="question-maker">{renderElement()}</div>
-			<div className="button-container">
-				<div className={`question-update ${selectedQuestion === null ? 'inactive' : ''}`}>UPDATE</div>
-				<div className={`question-update ${selectedQuestion === null ? 'inactive' : ''}`}>DELETE</div>
-			</div>
+			<div className={`question-update ${selectedQuestion !== null &&
+				(isEdited || isMessageUpdated || isTypeQuestionUpdated) ? '' : 'inactive'}`}
+				onClick={updateQuestion}>UPDATE</div>
 		</div>
 	);
 }

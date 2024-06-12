@@ -12,7 +12,7 @@
 	.questions-question
 	{
 		@include flex-center;
-		@include select-design(25%, $main-background);
+		@include select-design(35%, $main-background);
 
 		margin-top: 70px;
 		padding: 5px;
@@ -36,7 +36,7 @@
 	.question-maker
 	{
 		position: relative;
-		@include select-design(calc(25% + 60px), $main-background);
+		@include select-design(calc(25% + 20px), $main-background);
 		margin-top: 10px;
 		padding: 20px;
 		box-sizing: border-box;
@@ -48,7 +48,7 @@
 			height: 100%;
 			overflow-y: auto;
 
-			.mulitplechoice
+			.multiplechoice
 			{
 				display: flex;
 				justify-content: space-evenly;
@@ -57,10 +57,11 @@
 				.delete
 				{
 					@include flex-center;
+					height: 50px;
 					margin-bottom: 10px;
 					position: relative;
-					width: 30%;
-					margin-left: 10px;
+					width: 28%;
+					margin-right: 10px;
 					border-radius: 10px;
 					box-shadow: $border-color;
 					background-color: $button-card-c;
@@ -77,7 +78,15 @@
 	.identification
 	{
 		@include input-design;
+		margin-right: 10px;
 		margin-bottom: 10px;
+		resize: none;
+		height: 100%;
+	}
+
+	.add-inputholder
+	{
+		@include update-button;
 	}
 
 	.button-container
@@ -97,6 +106,10 @@
 			margin-top: 0;
 			width: 48%;
 		}
+	}
+	.question-update
+	{
+		@include update-button;
 	}
 }
 

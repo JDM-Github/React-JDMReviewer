@@ -1,14 +1,15 @@
 import React from 'react';
 import './Navigator.scss';
 
-export default function Navigator({ currentQuestion, onPrevious, onNext})
+export default function Navigator({ currentQuestion, subjectQuestions, onPrevious, onNext})
 {
 	return (
 		<div className="navigator">
-			<div className="question-number">QUESTION {currentQuestion} / 50</div>
+			<div className="question-number">QUESTION {currentQuestion} / {
+				subjectQuestions && subjectQuestions.length > 0 ? subjectQuestions.length : 1}</div>
 			<div className="button-container">
-				<button onClick={onPrevious}>Previous</button>
-				<button onClick={onNext}>Next</button>
+				<button className={currentQuestion === 1 ? 'inactive' : ''} onClick={onPrevious}>Previous</button>
+				<button className={(subjectQuestions && subjectQuestions.length > 0 ? subjectQuestions.length : 1) <= currentQuestion ? 'inactive' : ''} onClick={onNext}>Next</button>
 			</div>
 		</div>
 	);

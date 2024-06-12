@@ -10,8 +10,8 @@
 .create-question > *
 {
 	position: relative;
-	margin-left: 20px;
-	height: 500px;
+	margin: 0 5px;
+	height: 550px;
 	border-radius: 20px;
 	box-shadow: 0 5px 10px #00000033;
 }
@@ -23,10 +23,10 @@
 
 .create-question .middle-container
 {
-	width: 35%;
+	width: 30%;
 }
 
 .create-question .right-container
 {
-	width: 35%;
+	width: 40%;
 }

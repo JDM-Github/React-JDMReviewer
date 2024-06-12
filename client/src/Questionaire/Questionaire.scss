@@ -51,6 +51,21 @@
 		user-select: none;
 		background-color: $card-background;
 		box-shadow: inset $border-color;
+
+		.message-txtbox
+		{
+			text-align: center;
+			width: 100%;
+			img
+			{
+				
+			}
+			a
+			{
+				color: $white-text;
+				font-style: italic;
+			}
+		}
 	}
 
 	.answer-container

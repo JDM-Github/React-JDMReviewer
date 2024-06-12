@@ -82,5 +82,9 @@
 			width: 48%;
 		}
 	}
+	.question-update
+	{
+		@include update-button;
+	}
 	
 }

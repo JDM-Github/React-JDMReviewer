@@ -5,11 +5,25 @@
 	display: flex;
 	align-items: center;
 	position: relative;
-	margin-bottom: 50px;
+	margin-bottom: 30px;
 	width: 100vw;
 	height: 50px;
 	border: $border-color;
 	background-color: $question-bg;
+
+	button {
+		margin-left: 5px;
+		border: none;
+		outline: none;
+		color: $white-text;
+		cursor: pointer;
+		font-weight: bold;
+		font-size: 1.2rem;
+		background-color: transparent;
+	}
+	button:hover {
+		color: $hover-normal-txt;
+	}
 
 	.nav-items
 	{
@@ -20,10 +34,30 @@
 		color: $white-text;
 		cursor: pointer;
 		text-decoration: none;
+		border-radius: 10px;
 
 		&:hover
 		{
 			color: $normal-text
+		}
+	}
+
+	.select-nav
+	{
+		background-color: $select-nav-bg;
+		padding: 5px;
+		border: 2px solid $select-nav-hbg;
+		font-size: 1rem;
+		outline: none;
+		&:hover
+		{
+			color: $white-text;
+		}
+
+		option
+		{
+			text-align: center;
+			background-color: $card-background;
 		}
 	}
 

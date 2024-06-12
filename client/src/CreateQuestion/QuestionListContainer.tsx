@@ -12,7 +12,8 @@ function QuestionContainer({id, text, onClick, className})
 
 	// This will check if the clickCount happen within 300 milliseconds
 	useEffect(() => {
-		if (clickCount === 2) {
+		if (clickCount === 2)
+		{
 			setIsEditing(true);
 			setClickCount(0);
 		}
@@ -21,8 +22,7 @@ function QuestionContainer({id, text, onClick, className})
 	}, [clickCount]);
 
 	const handleClick = () => {
-		if (clickCount === 0)
-			onClick();
+		if (clickCount === 0) onClick();
 		setClickCount(prevCount => prevCount + 1);
 	}
 	const handleChange = (event) => setInputText(event.target.value || "NONE");
@@ -47,14 +47,30 @@ function QuestionContainer({id, text, onClick, className})
 	);
 }
 
-export default function QuestionListContainer( {className, setSelectedSubject, setSelectedQuestion} ) 
+export default function QuestionListContainer( {className, selectedSubject, setSelectedSubject, setSelectedQuestion} ) 
 {
 	const [backendData, setBackendData] = useState([{}]);
 	const [activeQuestion, setActiveQuestion] = useState(null);
 
+	const updateSubjects = () => RequestHandler.handleRequest('get', `/api/get-subjects`)
+		.then((result) => { setBackendData(result); })
+		.catch((error) => { setBackendData({}); });
+
+	const addSubject = () => RequestHandler.handleRequest('post', `/api/add-subject`)
+		.then(() => updateSubjects());
+
+	const deleteSubject = () => {
+		setSelectedSubject (null);
+		setSelectedQuestion(null);
+
+		RequestHandler.handleRequest('post', '/api/del-subject', {subject_id: selectedSubject})
+		.then(() => updateSubjects());
+	}
+
 	useEffect(() => {
-		RequestHandler.handleRequest('get', '/api/get-subjects')
-		.then((result) => { setBackendData(result); console.log(result); });
+		RequestHandler.handleRequest('get', `/api/get-subjects`)
+		.then((result) => { setBackendData(result); })
+		.catch((error) => { setBackendData({}); });
 	}, []);
 
 	const handleClick = (id) => {
@@ -74,10 +90,9 @@ export default function QuestionListContainer( {className, setSelectedSubject, s
 					/>
 				))}
 			</div>
-			{/*<div className="question-update">ADD</div>*/}
 			<div className="button-container">
-				<div className="question-update">UPDATE</div>
-				<div className={`question-update ${activeQuestion === null ? 'inactive' : ''}`}>DELETE</div>
+				<div className="question-update" onClick={addSubject}>ADD</div>
+				<div className={`question-update ${activeQuestion === null ? 'inactive' : ''}`} onClick={deleteSubject}>DELETE</div>
 			</div>
 		</div>
 	);

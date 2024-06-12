@@ -11,30 +11,39 @@ function QuestionContainer({text, onClick, className})
 	);
 }
 
+
 export default function QuestionList( {className, selectedSubject, setSelectedQuestion, selectedQuestion} )
 {
 	const [backendData, setBackendData] = useState([{}]);
 	const [activeQuestion, setActiveQuestion] = useState(null);
 
-	useEffect(() => {
-		RequestHandler.handleRequest('get', `/api/get-question-ids/${selectedSubject}`)
+	const updateQuestions = () => RequestHandler.handleRequest('get', `/api/get-question-ids/${selectedSubject}`)
 		.then((result) => { setBackendData(result); });
-	}, [selectedSubject]);
 
-	const addQuestion = () => {
+	const addQuestion = () => RequestHandler.handleRequest('post', `/api/add-question`, {subject_id: selectedSubject})
+		.then(() => updateQuestions());
 
-	};
+	const deleteQuestion = () => {
+		setSelectedQuestion(null);
+		setActiveQuestion  (null);
+
+		RequestHandler.handleRequest('post', '/api/del-question', {question_id: activeQuestion})
+		.then(() => updateQuestions());
+	}
 
 	const handleClick = (id) => {
-		if (selectedQuestion !== null)
+		setSelectedQuestion(null);
+		setActiveQuestion  (null);
+		if (selectedQuestion === id)
 		{
-        	setSelectedQuestion(null);
-        	setActiveQuestion(null);
 			return;
 		}
-        setSelectedQuestion(id);
-        setActiveQuestion(id);
-    };
+		setSelectedQuestion(id);
+		setActiveQuestion(id);
+	};
+	useEffect(() => {
+		updateQuestions()
+	}, [selectedSubject]);
 
 	return (
 		<div className={`question-list ${className}`}>
@@ -47,7 +56,12 @@ export default function QuestionList( {className, selectedSubject, setSelectedQu
 					/>
 				))}
 			</div>
-			<div className={`question-update ${selectedSubject === null ? 'inactive' : ''}`} onClick={addQuestion}>ADD</div>
+			<div className="button-container">
+				{/*<div className="question-update">UPDATE</div>*/}
+				<div className={`question-update ${selectedSubject === null ? 'inactive' : ''}`} onClick={addQuestion}>ADD</div>
+				<div className={`question-update ${activeQuestion === null ? 'inactive' : ''}`} onClick={deleteQuestion}>DELETE</div>
+			</div>
+			
 		</div>
 	);
 }

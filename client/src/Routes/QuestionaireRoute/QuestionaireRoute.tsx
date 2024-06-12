@@ -7,10 +7,11 @@ import Navigator from '../../Navigator/Navigator.tsx';
 
 function QuestionaireRoute()
 {
-	// const [data, setData] = RequestHandler.fetchDataFromServer('get', '/api', {"name": 1});
+	const [subjectQuestions, setSubjectQuestions] = useState(null);
+	const [questionAnswers, setQuestionAnswers] = useState([]);
 	const [currentQuestion, setCurrentQuestion] = useState(1);
 
-	const handleNext     = () => setCurrentQuestion(Math.min(currentQuestion + 1, 50));
+	const handleNext     = () => setCurrentQuestion(Math.min(currentQuestion + 1, subjectQuestions && subjectQuestions.length > 0 ? subjectQuestions.length : 1));
 	const handlePrevious = () => setCurrentQuestion(Math.max(currentQuestion - 1, 1));
 
 	useEffect(() =>
@@ -19,10 +20,10 @@ function QuestionaireRoute()
 		{
 			const activeElement = document.activeElement;
 			const isInputActive = activeElement && 
-				(activeElement.tagName === 'INPUT' || 
-				activeElement.tagName === 'TEXTAREA' || 
-				activeElement.tagName === 'SELECT' || 
-				activeElement.getAttribute('contenteditable') === 'true');
+				(activeElement.tagName === 'INPUT'
+			  || activeElement.tagName === 'TEXTAREA'
+			  || activeElement.tagName === 'SELECT'
+			  || activeElement.getAttribute('contenteditable') === 'true');
 
 			if (!isInputActive)
 			{
@@ -39,9 +40,9 @@ function QuestionaireRoute()
 
 	return (
 		<div className="main">
-			<Navigation />
-			<Navigator currentQuestion={currentQuestion} onPrevious={handlePrevious} onNext={handleNext} />
-			<Questionaire currentQuestion={currentQuestion} />
+			<Navigation setSubjectQuestions={setSubjectQuestions} setQuestionAnswers={setQuestionAnswers} />
+			<Navigator currentQuestion={currentQuestion} subjectQuestions={subjectQuestions} onPrevious={handlePrevious} onNext={handleNext} />
+			<Questionaire subjectQuestions={subjectQuestions} currentQuestion={currentQuestion} />
 		</div>
 	);
 }
