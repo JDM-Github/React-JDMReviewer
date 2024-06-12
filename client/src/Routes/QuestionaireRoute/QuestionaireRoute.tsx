@@ -42,7 +42,7 @@ function QuestionaireRoute()
 		<div className="main">
 			<Navigation setSubjectQuestions={setSubjectQuestions} setQuestionAnswers={setQuestionAnswers} />
 			<Navigator currentQuestion={currentQuestion} subjectQuestions={subjectQuestions} onPrevious={handlePrevious} onNext={handleNext} />
-			<Questionaire subjectQuestions={subjectQuestions} currentQuestion={currentQuestion} />
+			<Questionaire setQuestionAnswers={setQuestionAnswers} questionAnswers={questionAnswers} subjectQuestions={subjectQuestions} currentQuestion={currentQuestion} />
 		</div>
 	);
 }

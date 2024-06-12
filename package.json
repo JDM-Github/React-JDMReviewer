@@ -1,0 +1,10 @@
+{
+  "name": "my-express-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:client",
+    "build:client": "cd client && npm install && npm run build",
+    "postinstall": "cd server && npm install"
+  }
+}

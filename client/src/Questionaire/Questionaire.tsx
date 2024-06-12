@@ -7,21 +7,41 @@ import './AnswerButton.scss';
 import './AnswerInput.scss';
 import './AnswerInputEnumeration.scss';
 
-function AnswerInput({id})
+function AnswerInput({currentQuestion, setQuestionAnswers, questionAnswers, id})
 {
-	return (
-		<input className="answer-input" />
-	);
+	const [text, setText] = useState(null);
+	const handleChange = (text) => {
+		setText(text);
+		const updatedQuestionAnswers = [...questionAnswers];
+        updatedQuestionAnswers[currentQuestion-1] = text;
+		setQuestionAnswers(updatedQuestionAnswers);
+	}
+	return (<input className="answer-input" value={text} onChange={(e) => handleChange(e.target.value)} />);
 }
 
-function AnswerInputEnumeration({id})
+function AnswerInputEnumeration({currentQuestion, setQuestionAnswers, questionAnswers, id})
 {
-	const [multipleChoice, setMultipleChoice] = useState(null);
 	const [enumeration, setEnumeration] = useState(null);
+	const [answers, setAnswers] = useState([]);
+
 	useEffect(() => {
 		RequestHandler.handleRequest('get', `/api/enumeration/${id}`)
-		.then((result) => setEnumeration(result[0]));
+		.then((result) => {
+			setEnumeration(result[0]);
+			setAnswers(new Array(result[0].question_answers.length).fill(''));
+		});
 	}, [id]);
+
+	const handleAnswerChange = (index, value) => {
+        const newAnswers = [...answers];
+        newAnswers[index] = value;
+        setAnswers(newAnswers);
+
+        const updatedQuestionAnswers = [...questionAnswers];
+        updatedQuestionAnswers[currentQuestion-1] = newAnswers;
+        setQuestionAnswers(updatedQuestionAnswers);
+
+    };
 
 	return (
 		<div className="answer-input-enum-container">
@@ -29,17 +49,24 @@ function AnswerInputEnumeration({id})
 				<input
 					key={index}
 					className="answer-input-enum"
+					value={answers[index]}
+                    onChange={(e) => handleAnswerChange(index, e.target.value)}
 				/>
 			)) : null}
 		</div>
 	);
 }
 
-function AnswerButton({id})
+function AnswerButton({currentQuestion, setQuestionAnswers, questionAnswers, id})
 {
 	const [multipleChoice, setMultipleChoice] = useState(null);
 	const [activeButton, setActiveButton] = useState(null);
-	const handleButtonClick = (index) => setActiveButton(index);
+	const handleButtonClick = (index) => {
+		setActiveButton(index);
+		const updatedQuestionAnswers = [...questionAnswers];
+        updatedQuestionAnswers[currentQuestion-1] = multipleChoice.question_answers[index].id;
+        setQuestionAnswers(updatedQuestionAnswers);
+	}
 
 	useEffect(() => {
 		RequestHandler.handleRequest('get', `/api/multiple_choice/${id}`)
@@ -64,7 +91,7 @@ function CreateMessage({ text }) {
 	return (<div className="message-txtbox" dangerouslySetInnerHTML={{ __html: parsedMessage }} />);
 }
 
-export default function Questionaire( {subjectQuestions, currentQuestion} )
+export default function Questionaire( {subjectQuestions, currentQuestion, setQuestionAnswers, questionAnswers} )
 {
 	const [message, setMessage] = useState("");
 	const [questionType, setQuestionType] = useState(null);
@@ -111,14 +138,19 @@ export default function Questionaire( {subjectQuestions, currentQuestion} )
 		});
 	});
 
-	const renderElement = () => {
-		if (questionType === 'IDENTIFICATION')
-			return <AnswerInput id={identificationID} />
-		else if (questionType === 'MULTIPLE CHOICE')
-			return <AnswerButton id={multipleChoiceID} />
-		else if (questionType === 'ENUMERATION')
-			return <AnswerInputEnumeration id={enumerationID} />
-		return null;
+	const renderElement = () =>
+	{
+		switch (questionType)
+		{
+        	case 'IDENTIFICATION':
+            	return <AnswerInput setQuestionAnswers={setQuestionAnswers} currentQuestion={currentQuestion} questionAnswers={questionAnswers} id={identificationID} />;
+        	case 'MULTIPLE CHOICE':
+            	return <AnswerButton setQuestionAnswers={setQuestionAnswers} currentQuestion={currentQuestion} questionAnswers={questionAnswers} id={multipleChoiceID} />;
+        	case 'ENUMERATION':
+            	return <AnswerInputEnumeration setQuestionAnswers={setQuestionAnswers} currentQuestion={currentQuestion} questionAnswers={questionAnswers} id={enumerationID} />;
+        	default:
+            	return null;
+    	}
 	};
 
 	return (

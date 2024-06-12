@@ -1,7 +1,8 @@
-const express = require('express');
-const sql     = require('mysql2');
-const cors    = require('cors');
-const path    = require('path');
+const express    = require('express');
+const sql        = require('mysql2');
+const cors       = require('cors');
+const path       = require('path');
+const serverless = require("serverless-http");
 
 const SubjectController = require('./subjectController');
 
@@ -11,7 +12,7 @@ const dbConfig = {
 	password: 'root',
 	database: 'JDMQuestionaire'
 };
-const isInDevelopment = true;
+const isInDevelopment = false;
 
 class MainBackend
 {
@@ -217,9 +218,6 @@ class MainBackend
 			);
 		});
 
-
-
-
 		this.app.post('/api/update-identification', (req, res) => {
 			const { identification_id, message } = req.body;
 
@@ -337,3 +335,4 @@ function main()
 }
 
 main();
+module.exports.handler = serverless(app);
